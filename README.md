@@ -1,7 +1,7 @@
 HCOTipCalulator
 ===============
 
-My first switf app
+My first swift app
 
 This is my Tip Calculator for CodePath iOS-Swift observer group
 
