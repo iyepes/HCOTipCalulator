@@ -11,6 +11,7 @@ import UIKit
 class settingsViewController: UIViewController {
 
     @IBOutlet weak var percentageSelected: UISegmentedControl!
+    @IBOutlet weak var peopleRecorded: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,13 @@ class settingsViewController: UIViewController {
         var defaults = NSUserDefaults.standardUserDefaults()
         var intValue = defaults.integerForKey("percentageIndexSelected")
         percentageSelected.selectedSegmentIndex = intValue
+        var temp: AnyObject? = defaults.objectForKey("usualPeople")
+        if temp == nil {peopleRecorded.text = "1"
+        } else {
+            var stringValue = defaults.objectForKey("usualPeople") as String
+            peopleRecorded.text = stringValue
+        }
+        
         
     }
 
@@ -40,6 +48,11 @@ class settingsViewController: UIViewController {
         defaults.synchronize()
     }
     
+    @IBAction func savePeople(sender: AnyObject) {
+        var defaults = NSUserDefaults.standardUserDefaults()
+        defaults.setObject(peopleRecorded.text, forKey: "usualPeople")
+        defaults.synchronize()
+    }
     
     
     /*

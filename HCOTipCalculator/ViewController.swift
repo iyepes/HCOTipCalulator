@@ -16,11 +16,16 @@ class ViewController: UIViewController {
     @IBOutlet weak var totalLabel: UILabel!
     @IBOutlet weak var tipControl: UISegmentedControl!
     
+    @IBOutlet weak var individualAmount: UILabel!
+    @IBOutlet weak var peopleNumber: UITextField!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         tipLabel.text = "$0.00"
         totalLabel.text = "$0.00"
+        peopleNumber.text = "2"
+        individualAmount.text = "$0.00"
         
     }
 
@@ -28,6 +33,12 @@ class ViewController: UIViewController {
         var defaults = NSUserDefaults.standardUserDefaults()
         var intValue = defaults.integerForKey("percentageIndexSelected")
         tipControl.selectedSegmentIndex = intValue
+        var temp: AnyObject? = defaults.objectForKey("usualPeople")
+        if temp == nil {peopleNumber.text = "1"
+        } else {
+            var stringValue = defaults.objectForKey("usualPeople") as String
+            peopleNumber.text = stringValue
+        }
     }
     
     override func didReceiveMemoryWarning() {
@@ -41,14 +52,20 @@ class ViewController: UIViewController {
         var tipPercentageSelected = tipPercentages[tipControl.selectedSegmentIndex]
         
         var billAmount = NSString(string: billText.text).doubleValue
+        var howManyPeople = NSString(string: peopleNumber.text).doubleValue
         var tip = billAmount * tipPercentageSelected
         var total = billAmount + tip
+        var eachOne = total / howManyPeople
         
         tipLabel.text = "$\(tip)"
         totalLabel.text = "$\(total)"
         
         tipLabel.text = String(format: "$%.2f", tip)
         totalLabel.text = String(format: "$%.2f", total)
+        if eachOne == Double.infinity {individualAmount.text = "$0.00"
+        } else {individualAmount.text = String(format: "$%.2f", eachOne)
+        }
+        
     }
 
     @IBAction func onTap(sender: AnyObject) {
